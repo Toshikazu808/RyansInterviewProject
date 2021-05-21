@@ -7,13 +7,8 @@
 
 import UIKit
 
-protocol ViewControllerDelegate {
-   func passDetails(overview: String, extracurricular: String)
-}
-
 class ViewController: UIViewController {
    
-   var delegate: ViewControllerDelegate?
    @IBOutlet weak var tableView: UITableView!
    var schoolData: [SchoolModel] = []
    var helper = Helper()
@@ -21,6 +16,7 @@ class ViewController: UIViewController {
    
    override func viewDidLoad() {
       super.viewDidLoad()
+      tableView.backgroundColor = .white
       tableView.delegate = self
       tableView.dataSource = self
       tableView.register(Screen1Cell.nib(), forCellReuseIdentifier: Screen1Cell.nibName)
@@ -29,13 +25,14 @@ class ViewController: UIViewController {
          case .failure(let error):
             print(error)
          case .success(let success):
-            print("success: \(success)")
             self.schoolData = success
             DispatchQueue.main.async {
                self.tableView.reloadData()
             }
          }
-      } //: performRequest()      
+      } //: performRequest()
+      tableView.estimatedRowHeight = 25
+      tableView.rowHeight = UITableView.automaticDimension
    } //: viewDidLoad()
 
 } //: ViewController
@@ -69,12 +66,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
    }
    
    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//      Helper.tempOverview_paragraph = schoolData[indexPath.row].overview_paragraph ?? ""
-//      Helper.tempExtracurricular_activities = schoolData[indexPath.row].extracurricular_activities ?? ""
-      
-      self.delegate?.passDetails(
-         overview: schoolData[indexPath.row].overview_paragraph ?? "",
-         extracurricular: schoolData[indexPath.row].extracurricular_activities ?? "")
+      Helper.overview_paragraph = schoolData[indexPath.row].overview_paragraph ?? ""
+      Helper.extracurricular_activities = schoolData[indexPath.row].extracurricular_activities ?? ""
       performSegue(withIdentifier: "toScreen2", sender: nil)
    }
    

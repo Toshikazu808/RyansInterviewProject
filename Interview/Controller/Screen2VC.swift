@@ -8,20 +8,20 @@
 import UIKit
 
 class Screen2VC: UIViewController {
-
-   var vc = ViewController()
-   @IBOutlet weak var tableView: UITableView!
-   var overviewParagraph: String = ""
-   var extracurricularActivities: String = ""
    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+   @IBOutlet weak var tableView: UITableView!
+   
+   override func viewDidLoad() {
+      super.viewDidLoad()
+      print("\nScreen2VC \(#function)")
       tableView.delegate = self
       tableView.dataSource = self
       tableView.register(Screen2Cell.nib(), forCellReuseIdentifier: Screen2Cell.nibName)
-      vc.delegate = self        
-    } //: viewDidLoad()
-
+      tableView.reloadData()
+      tableView.estimatedRowHeight = 25
+      tableView.rowHeight = UITableView.automaticDimension
+   }
+   
 }
 
 
@@ -31,28 +31,17 @@ extension Screen2VC: UITableViewDelegate, UITableViewDataSource {
    }
    
    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-      return 2
-   }
-   
-   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-      return UITableView.automaticDimension
+      return 1
    }
    
    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
       let cell = tableView.dequeueReusableCell(
          withIdentifier: Screen2Cell.nibName,
          for: indexPath) as! Screen2Cell
-      cell.configure(overview: overviewParagraph, extracurricular: extracurricularActivities)
+      cell.configure(overview: Helper.overview_paragraph, extracurricular: Helper.extracurricular_activities)
+      print("\nOverview: \(cell.overviewLabel.text ?? "")")
+      print("\nExtracurricular activities: \(cell.extracurricularLabel.text ?? "")")
       return cell
    }
    
-}
-
-
-extension Screen2VC: ViewControllerDelegate {
-   func passDetails(overview: String, extracurricular: String) {
-      overviewParagraph = overview
-      extracurricularActivities = extracurricular
-      tableView.reloadData()
-   }
 }

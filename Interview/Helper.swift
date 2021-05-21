@@ -9,9 +9,8 @@ import Foundation
 
 struct Helper {
    // Temporary solution
-   static var tempOverview_paragraph = ""
-   static var tempExtracurricular_activities = ""
-   
+   static var overview_paragraph = ""
+   static var extracurricular_activities = ""
    
    func performRequest<T: Codable>(urlString: String, returnType: T.Type, completion: @escaping (Result<T, Error>) -> Void ) {
       print("\n\(#function)")
@@ -42,7 +41,5 @@ struct Helper {
       } else {
          print("something went wrong with the url")
       }
-   } //: performRequest()
-   
-   
+   } //: performRequest() 
 }

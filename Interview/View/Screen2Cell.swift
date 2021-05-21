@@ -15,6 +15,7 @@ class Screen2Cell: UITableViewCell {
    
    override func awakeFromNib() {
       super.awakeFromNib()
+      self.backgroundColor = .white
       self.isUserInteractionEnabled = false
       self.selectionStyle = .none
    }

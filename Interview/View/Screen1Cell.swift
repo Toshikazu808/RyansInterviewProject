@@ -15,10 +15,12 @@ class Screen1Cell: UITableViewCell {
    @IBOutlet weak var schoolEmailLabel: UILabel!
    @IBOutlet weak var websiteLabel: UILabel!
    @IBOutlet weak var phoneLabel: UILabel!
-   static let nibName = "Screen1Ceell"
+   static let nibName = "Screen1Cell"
    
    override func awakeFromNib() {
-      super.awakeFromNib()      
+      super.awakeFromNib()
+      self.backgroundColor = .white
+      self.selectionStyle = .none
    }
    static func nib() -> UINib {
       return UINib(nibName: Screen1Cell.nibName, bundle: nil)
