@@ -7,11 +7,7 @@
 
 import Foundation
 
-struct Helper {
-   // Temporary solution
-   static var overview_paragraph = ""
-   static var extracurricular_activities = ""
-   
+struct Helper {   
    func performRequest<T: Codable>(urlString: String, returnType: T.Type, completion: @escaping (Result<T, Error>) -> Void ) {
       print("\n\(#function)")
       if let url = URL(string: urlString) {

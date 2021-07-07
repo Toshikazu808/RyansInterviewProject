@@ -10,6 +10,8 @@ import UIKit
 class Screen2VC: UIViewController {
    
    @IBOutlet weak var tableView: UITableView!
+   var overview_paragraph = ""
+   var extracurricular_activities = ""
    
    override func viewDidLoad() {
       super.viewDidLoad()
@@ -38,7 +40,7 @@ extension Screen2VC: UITableViewDelegate, UITableViewDataSource {
       let cell = tableView.dequeueReusableCell(
          withIdentifier: Screen2Cell.nibName,
          for: indexPath) as! Screen2Cell
-      cell.configure(overview: Helper.overview_paragraph, extracurricular: Helper.extracurricular_activities)
+      cell.configure(overview: overview_paragraph, extracurricular: extracurricular_activities)
       print("\nOverview: \(cell.overviewLabel.text ?? "")")
       print("\nExtracurricular activities: \(cell.extracurricularLabel.text ?? "")")
       return cell

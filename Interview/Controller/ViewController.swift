@@ -10,9 +10,11 @@ import UIKit
 class ViewController: UIViewController {
    
    @IBOutlet weak var tableView: UITableView!
-   var schoolData: [SchoolModel] = []
-   var helper = Helper()
-   let url = "https://data.cityofnewyork.us/resource/s3k6-pzi2.json"
+   private var schoolData: [SchoolModel] = []
+   private var overview_paragraph = ""
+   private var extracurricular_activities = ""
+   private var helper = Helper()
+   private let url = "https://data.cityofnewyork.us/resource/s3k6-pzi2.json"
    
    override func viewDidLoad() {
       super.viewDidLoad()
@@ -20,22 +22,29 @@ class ViewController: UIViewController {
       tableView.delegate = self
       tableView.dataSource = self
       tableView.register(Screen1Cell.nib(), forCellReuseIdentifier: Screen1Cell.nibName)
-      helper.performRequest(urlString: url, returnType: [SchoolModel].self) { result in
+      helper.performRequest(urlString: url, returnType: [SchoolModel].self) { [weak self] result in
          switch result {
          case .failure(let error):
             print(error)
          case .success(let success):
-            self.schoolData = success
+            self?.schoolData = success
             DispatchQueue.main.async {
-               self.tableView.reloadData()
+               self?.tableView.reloadData()
             }
          }
-      } //: performRequest()
+      }
       tableView.estimatedRowHeight = 25
       tableView.rowHeight = UITableView.automaticDimension
-   } //: viewDidLoad()
-
-} //: ViewController
+   }
+   
+   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+      if segue.destination is Screen2VC {
+         let vc = segue.destination as? Screen2VC
+         vc?.overview_paragraph = self.overview_paragraph
+         vc?.extracurricular_activities = self.extracurricular_activities
+      }
+   }
+}
 
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
@@ -66,8 +75,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
    }
    
    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-      Helper.overview_paragraph = schoolData[indexPath.row].overview_paragraph ?? ""
-      Helper.extracurricular_activities = schoolData[indexPath.row].extracurricular_activities ?? ""
+      overview_paragraph = schoolData[indexPath.row].overview_paragraph ?? ""
+      extracurricular_activities = schoolData[indexPath.row].extracurricular_activities ?? ""
       performSegue(withIdentifier: "toScreen2", sender: nil)
    }
    
